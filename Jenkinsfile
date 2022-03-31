@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout Source Code') {
             steps {
-                git branch: 'master', url: 'https://github.com/gopalakrishnab/DVWA-master.git'
+                git branch: 'main', url: 'https://github.com/gopalakrishnab/DVWA-master.git'
             }
         }
 
