@@ -14,15 +14,7 @@ pipeline {
             }
         }
 
-        stage('Build Source Code') {
-            steps {
-                  withMaven {
-                      sh '''mvn clean package -Dmaven.test.skip'''
-                  }
-            }
-        }
-
-        stage('IO - Prescription') {
+     stage('IO - Prescription') {
             steps {
                 synopsysIO(connectors: [
                     io(
