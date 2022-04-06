@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout Source Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/gopalakrishnab/DVWA-master.git'
+                git branch: 'main', url: 'https://github.com/gopalakrishnab/DVWA.git'
             }
         }
 
@@ -22,16 +22,16 @@ pipeline {
                         projectName: 'devsecops-dvwa-io',
                         workflowVersion: '2022.03.1'),
                     github(
-                        branch: 'master',
-                        configName: 'poc-github',
-                        owner: 'devsecops-gopala',
-                        repositoryName: 'io-coverity-dvwa-io'), 
+                        branch: 'main',
+                        configName: 'poc-gopala-github',
+                        owner: 'gopalakrishnab',
+                        repositoryName: 'DVWA'), 
                      jira(
-                         assignee: 'gopalakrishna.b@carrier.com', 
+                         assignee: 'karn@synopsys.com', 
                          configName: 'poc-jira', 
                          issueQuery: 'resolution=Unresolved', 
-                         projectKey: 'INSEC', 
-                         projectName: 'dvwa-io'), 
+                         projectKey: 'DVWAN', 
+                         projectName: 'DVWA-NEW'), 
                     buildBreaker(configName: 'poc-bb')]) {
                         sh 'io --stage io Persona.Type=devsecops Project.Release.Type=minor'
                     }
@@ -51,7 +51,7 @@ pipeline {
         }
 
 
-        stage('SAST - Coverity') {
+     /*   stage('SAST - Coverity') {
           when {
             expression { isSASTEnabled }
           }
@@ -64,7 +64,7 @@ pipeline {
               }
             }
         }
-
+    */
         stage('SAST Plus Manual') {
             when {
                 expression { isSASTPlusMEnabled }
@@ -85,7 +85,7 @@ pipeline {
               echo 'Running SCA using BlackDuck'
               synopsysIO(connectors: [
                   blackduck(configName: 'poc-bd',
-                  projectName: 'dvwa-io',
+                  projectName: 'DVWA-NEW',
                   projectVersion: '1.0')]) {
                   sh 'io --stage execution --state io_state.json'
               }
@@ -108,10 +108,10 @@ pipeline {
             steps {
                 echo 'Execute Workflow Stage'
                 synopsysIO(connectors: [
-                    codeDx(configName: 'poc-codedx', projectId: '1'), 
-                    coverity(configName: 'poc-coverity', stream: 'dvwa'),
-                    blackduck(configName: 'poc-bd', projectName: 'dvwa-io', projectVersion: '1.0'),
-                    jira(assignee: 'karn@synopsys.com', configName: 'poc-jira', issueQuery: 'resolution=Unresolved AND labels in (Security, Defect)', projectKey: 'INSEC'), 
+                    codeDx(configName: 'poc-codedx', projectId: '4'), 
+                    //coverity(configName: 'poc-coverity', stream: 'dvwa'),
+                    blackduck(configName: 'poc-bd', projectName: 'DVWA-NEW', projectVersion: '1.0'),
+                    jira(assignee: 'karn@synopsys.com', configName: 'poc-jira', issueQuery: 'resolution=Unresolved AND labels in (Security, Defect)', projectKey: 'DVWAN'), 
                     //msteams(configName: 'poc-msteams'), 
                     buildBreaker(configName: 'poc-bb')
                 ]) {
