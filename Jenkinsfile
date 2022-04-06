@@ -20,7 +20,7 @@ pipeline {
                     io(
                         configName: 'poc-io',
                         projectName: 'DVWA-NEW',
-                        workflowVersion: '2022.03.1'),
+                        workflowVersion: '2021.12.4'),
                     github(
                         branch: 'main',
                         configName: 'poc-gopala-github',
