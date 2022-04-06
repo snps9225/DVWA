@@ -19,7 +19,7 @@ pipeline {
                 synopsysIO(connectors: [
                     io(
                         configName: 'poc-io',
-                        projectName: 'devsecops-dvwa-io',
+                        projectName: 'DVWA-NEW',
                         workflowVersion: '2022.03.1'),
                     github(
                         branch: 'main',
